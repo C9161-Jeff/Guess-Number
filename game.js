@@ -1,36 +1,48 @@
-const topScore = document.querySelector(".top-score-label .top-score");
-const score = document.querySelector(".score");
-const againButton = document.getElementById("again");
-const checkButton = document.querySelector(".btn.check");
-const tahminNumber = document.querySelector(".guess");
-const msg = document.querySelector(".msg");
-const bodybcc = document.querySelector("body");
-const rastgeleSayı = Math.ceil(Math.random() * 20);
-const tebrikSayısı = document.querySelector(".number");
-console.log(rastgeleSayı);
+let rastgeleSayi = Math.ceil(Math.random() * 20);
+console.log(rastgeleSayi);
 
+let mesaj = document.querySelector(".msg");
+
+let skor = 10;
 let enYüksekSkor = 0;
-let hak = 10;
 
-checkButton.addEventListener("click", () => {
-  // eger bos tıkladıysa
-  if (!tahminNumber) {
-    msg.textContent = "Lütfen Bir Sayı Giriniz!!";
-    // eger bıldıyse
-  } else if (tahminNumber == rastgeleSayı) {
-    msg.textContent = "Tebrikler Bildiniz .....🙌👍";
-    bodybcc.style.backgroundColor = "green";
-    tebrikSayısı.textContent = rastgeleSayı;
-    if (hak > enYüksekSkor) {
-      hak = enYüksekSkor;
-      topScore.textContent = hak;
-    }
-    // skor yanlıssa
+document.querySelector(".check").addEventListener("click", () => {
+  let tahmin = document.querySelector(".guess").value;
+  // console.log(tahmin);
+
+  //! tahmin girilmeden checke basınca
+  if (!tahmin) {
+    mesaj.textContent = "Lütfen geçerli bir sayı giriniz !!";
+  } else if (tahmin == rastgeleSayi) {
+    mesaj.textContent = "Tebrikler Bildiniz 🙌👌";
+    document.querySelector(".check").disabled = true;
+    document.querySelector("body").style.backgroundColor = "green";
+    document.querySelector(".number").textContent = rastgeleSayi;
+
+    //! top score kontrolu
   } else {
-    // skor 1 den buyuk oldugu surece devam et
-    if (hak > 1) {
-      hak--;
-      score.textContent = hak;
+    //! tahmın yanlıssa
+    //! skor 1 den buyuk oldugu surece hakkım olsun
+    if (skor > 1) {
+      skor--;
+      document.querySelector(".score").textContent = skor;
+
+      tahmin < rastgeleSayi
+        ? (mesaj.textContent = "Arttır ")
+        : (mesaj.textContent = "Azalt");
+    } else {
+      mesaj.textContent = "Game Over😢";
+      document.querySelector(".score").textContent = 0;
+      document.querySelector("body").style.backgroundColor = "red";
     }
   }
+});
+
+document.querySelector(".again").addEventListener("click", () => {
+  document.querySelector(".check").disabled = false;
+  document.querySelector("body").style.backgroundColor = "#2d3436";
+  document.querySelector(".number").textContent = "?";
+  document.querySelector(".score").textContent = 10;
+  rastgeleSayi = Math.ceil(Math.random() * 20);
+  console.log("yenı rastgele sayı ", rastgeleSayi);
 });
